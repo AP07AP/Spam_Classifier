@@ -30,26 +30,37 @@ hasn't haven haven't isn isn't ma mightn mightn't mustn mustn't needn needn't
 shan shan't shouldn shouldn't wasn wasn't weren weren't won won't wouldn wouldn't
 """.split()
 
+import re
+
 def transform_text(text):
     # Convert to lowercase
     text = text.lower()
+    
     # Tokenize using Punkt tokenizer
     tokens = punkt_tokenizer.tokenize(text)
     st.write("Tokens:", tokens)  # Check tokens
 
-    # Keep alphanumeric tokens
-    y = [token for token in tokens if token.isalnum()]
-    st.write("Tokens after removing non-alphanumeric:", y)  # Check after alphanumeric filtering
+    # Keep alphanumeric tokens and split punctuation
+    y = []
+    for token in tokens:
+        # Split punctuation from words using regex
+        words = re.findall(r'\b\w+\b', token)
+        y.extend(words)
+    
+    st.write("Tokens after keeping meaningful words:", y)  # Check after splitting punctuation
 
     # Remove stopwords and punctuation
-    y = [word for word in y if word not in stop_words and word not in string.punctuation]
-    st.write("Tokens after stopword and punctuation removal:", y)  # Check after removing stopwords
+    y = [word for word in y if word not in stop_words]
+
+    st.write("Tokens after stopword removal:", y)  # Check after removing stopwords
 
     # Apply stemming
     y = [ps.stem(word) for word in y]
+
     st.write("Tokens after stemming:", y)  # Check after stemming
 
     return " ".join(y)
+
 
 # Load model and vectorizer
 try:
