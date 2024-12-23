@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import string
 from nltk.stem.porter import PorterStemmer
+from nltk.tokenize.punkt import PunktSentenceTokenizer
 
 ps = PorterStemmer()
 
@@ -30,26 +31,19 @@ shan shan't shouldn shouldn't wasn wasn't weren weren't won won't wouldn wouldn'
 """.split()
 
 def transform_text(text):
-    text = text.lower()  # Convert text to lowercase
-    tokens = punkt_tokenizer.tokenize(text)  # Tokenize using loaded Punkt model
+    # Convert to lowercase
+    text = text.lower()
+    # Tokenize using Punkt tokenizer
+    tokens = punkt_tokenizer.tokenize(text)
 
-    y = []
-    for i in tokens:
-        if i.isalnum():  # Keep alphanumeric tokens
-            y.append(i)
+    # Keep alphanumeric tokens
+    y = [token for token in tokens if token.isalnum()]
 
-    text = y[:]
-    y.clear()
+    # Remove stopwords and punctuation
+    y = [word for word in y if word not in stop_words and word not in string.punctuation]
 
-    for i in text:
-        if i not in stop_words and i not in string.punctuation:  # Remove stopwords and punctuation
-            y.append(i)
-
-    text = y[:]
-    y.clear()
-
-    for i in text:
-        y.append(ps.stem(i))  # Apply stemming
+    # Apply stemming
+    y = [ps.stem(word) for word in y]
 
     return " ".join(y)
 
@@ -63,19 +57,39 @@ except Exception as e:
 
 st.title("Email/SMS Spam Classifier")
 
+# Input box for SMS
 input_sms = st.text_area("Enter the message")
 
 if st.button('Predict'):
     if input_sms.strip() == "":
         st.warning("Please enter a message to classify.")
     else:
-        # 1. Preprocess
+        # Preprocess the input
         transformed_sms = transform_text(input_sms)
-        # 2. Vectorize
+        st.write("**Transformed Text:**", transformed_sms)  # Display transformed text
+
+        # Vectorize the transformed text
         vector_input = tfidf.transform([transformed_sms])
-        # 3. Predict
-        result = model.predict(vector_input)[0]
-        # 4. Display
+        st.write("**Vectorized Input Shape:**", vector_input.shape)  # Display vectorized input shape
+
+        # Debugging the top features in the vectorizer
+        try:
+            top_features = tfidf.get_feature_names_out()[:20]
+            st.write("**Top Features in Vectorizer:**", top_features)  # Display top features
+        except Exception as e:
+            st.write("**Error Retrieving Top Features:**", e)
+
+        # Predict the result
+        try:
+            result = model.predict(vector_input)[0]
+            prediction_probabilities = model.predict_proba(vector_input)
+            st.write("**Prediction Probabilities:**", prediction_probabilities)  # Display probabilities
+            st.write("**Raw Prediction:**", result)  # Display raw prediction
+        except Exception as e:
+            st.error(f"Error during prediction: {e}")
+            st.stop()
+
+        # Display the result
         if result == 1:
             st.header("Spam")
         else:
