@@ -35,15 +35,19 @@ def transform_text(text):
     text = text.lower()
     # Tokenize using Punkt tokenizer
     tokens = punkt_tokenizer.tokenize(text)
+    st.write("Tokens:", tokens)  # Check tokens
 
     # Keep alphanumeric tokens
     y = [token for token in tokens if token.isalnum()]
+    st.write("Tokens after removing non-alphanumeric:", y)  # Check after alphanumeric filtering
 
     # Remove stopwords and punctuation
     y = [word for word in y if word not in stop_words and word not in string.punctuation]
+    st.write("Tokens after stopword and punctuation removal:", y)  # Check after removing stopwords
 
     # Apply stemming
     y = [ps.stem(word) for word in y]
+    st.write("Tokens after stemming:", y)  # Check after stemming
 
     return " ".join(y)
 
