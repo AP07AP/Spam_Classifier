@@ -2,15 +2,13 @@ import streamlit as st
 import pickle
 import string
 from nltk.stem.porter import PorterStemmer
-from nltk.tokenize import word_tokenize
-from nltk.tokenize.punkt import PunktSentenceTokenizer
 
 ps = PorterStemmer()
 
 # Load Punkt tokenizer model from the pickle file
 try:
     with open('english.pickle', 'rb') as file:
-        punkt_tokenizer = PunktSentenceTokenizer(pickle.load(file))
+        punkt_tokenizer = pickle.load(file)
 except Exception as e:
     st.error(f"Error loading Punkt tokenizer: {e}")
     st.stop()
@@ -33,10 +31,10 @@ shan shan't shouldn shouldn't wasn wasn't weren weren't won won't wouldn wouldn'
 
 def transform_text(text):
     text = text.lower()  # Convert text to lowercase
-    text = word_tokenize(text, tokenizer=punkt_tokenizer)  # Tokenize using loaded Punkt model
+    tokens = punkt_tokenizer.tokenize(text)  # Tokenize using loaded Punkt model
 
     y = []
-    for i in text:
+    for i in tokens:
         if i.isalnum():  # Keep alphanumeric tokens
             y.append(i)
 
