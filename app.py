@@ -57,7 +57,7 @@ def transform_text(text):
     # Apply stemming
     y = [ps.stem(word) for word in y]
 
-    st.write("Tokens after stemming:", y)  # Check after stemming
+    # st.write("Tokens after stemming:", y)  # Check after stemming
 
     return " ".join(y)
 
