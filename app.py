@@ -38,7 +38,7 @@ def transform_text(text):
     
     # Tokenize using Punkt tokenizer
     tokens = punkt_tokenizer.tokenize(text)
-    st.write("Tokens:", tokens)  # Check tokens
+    # st.write("Tokens:", tokens)  # Check tokens
 
     # Keep alphanumeric tokens and split punctuation
     y = []
@@ -47,12 +47,12 @@ def transform_text(text):
         words = re.findall(r'\b\w+\b', token)
         y.extend(words)
     
-    st.write("Tokens after keeping meaningful words:", y)  # Check after splitting punctuation
+    # st.write("Tokens after keeping meaningful words:", y)  # Check after splitting punctuation
 
     # Remove stopwords and punctuation
     y = [word for word in y if word not in stop_words]
 
-    st.write("Tokens after stopword removal:", y)  # Check after removing stopwords
+    # st.write("Tokens after stopword removal:", y)  # Check after removing stopwords
 
     # Apply stemming
     y = [ps.stem(word) for word in y]
@@ -85,7 +85,7 @@ if st.button('Predict'):
 
         # Vectorize the transformed text
         vector_input = tfidf.transform([transformed_sms])
-        st.write("**Vectorized Input Shape:**", vector_input.shape)  # Display vectorized input shape
+        # st.write("**Vectorized Input Shape:**", vector_input.shape)  # Display vectorized input shape
 
         # Debugging the top features in the vectorizer
         try:
