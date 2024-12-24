@@ -81,7 +81,7 @@ if st.button('Predict'):
     else:
         # Preprocess the input
         transformed_sms = transform_text(input_sms)
-        st.write("**Transformed Text:**", transformed_sms)  # Display transformed text
+        # st.write("**Transformed Text:**", transformed_sms)  # Display transformed text
 
         # Vectorize the transformed text
         vector_input = tfidf.transform([transformed_sms])
