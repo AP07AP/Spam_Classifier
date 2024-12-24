@@ -85,14 +85,14 @@ if st.button('Predict'):
 
         # Vectorize the transformed text
         vector_input = tfidf.transform([transformed_sms])
-        st.write("**Vectorized Input Shape:**", vector_input.shape)  # Display vectorized input shape
+        # st.write("**Vectorized Input Shape:**", vector_input.shape)  # Display vectorized input shape
 
         # Debugging the top features in the vectorizer
         try:
             top_features = tfidf.get_feature_names_out()[:20]
-            st.write("**Top Features in Vectorizer:**", top_features)  # Display top features
+            # st.write("**Top Features in Vectorizer:**", top_features)  # Display top features
         except Exception as e:
-            st.write("**Error Retrieving Top Features:**", e)
+            # st.write("**Error Retrieving Top Features:**", e)
 
         # Predict the result
         try:
