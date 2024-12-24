@@ -90,7 +90,7 @@ if st.button('Predict'):
         # Debugging the top features in the vectorizer
         try:
             top_features = tfidf.get_feature_names_out()[:20]
-            st.write("**Top Features in Vectorizer:**", top_features)  # Display top features
+            # st.write("**Top Features in Vectorizer:**", top_features)  # Display top features
         except Exception as e:
             st.write("**Error Retrieving Top Features:**", e)
 
