@@ -38,7 +38,7 @@ def transform_text(text):
     
     # Tokenize using Punkt tokenizer
     tokens = punkt_tokenizer.tokenize(text)
-    # st.write("Tokens:", tokens)  # Check tokens
+    st.write("Tokens:", tokens)  # Check tokens
 
     # Keep alphanumeric tokens and split punctuation
     y = []
@@ -47,7 +47,7 @@ def transform_text(text):
         words = re.findall(r'\b\w+\b', token)
         y.extend(words)
     
-    # st.write("Tokens after keeping meaningful words:", y)  # Check after splitting punctuation
+    st.write("Tokens after keeping meaningful words:", y)  # Check after splitting punctuation
 
     # Remove stopwords and punctuation
     y = [word for word in y if word not in stop_words]
